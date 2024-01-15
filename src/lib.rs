@@ -1,8 +1,11 @@
+mod utils;
+
 use oars::{
     constructors::BoseChecked,
     oa::{OAConstructor, OAResult, OA},
     OarsError,
 };
+use wasm_bindgen::prelude::*;
 
 /// Errors.
 #[derive(thiserror::Error, Debug)]
@@ -18,6 +21,16 @@ pub fn create(parameter_count: usize, variations_per_param: usize) -> Result<OA<
     };
 
     Ok(config.verify()?.gen()?)
+}
+
+#[wasm_bindgen]
+extern "C" {
+    fn alert(s: &str);
+}
+
+#[wasm_bindgen]
+pub fn greet() {
+    alert("Hello, world!");
 }
 
 #[cfg(test)]
