@@ -30,7 +30,7 @@ extern "C" {
 
 #[wasm_bindgen]
 pub fn greet() {
-    alert("Hello, world!");
+    // alert("Hello, world!");
 }
 
 #[cfg(test)]

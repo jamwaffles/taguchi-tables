@@ -17,3 +17,32 @@ const runWasm = async () => {
 };
 
 runWasm();
+
+const form = document.getElementById("config");
+
+function handle_submit(e) {
+  e.preventDefault();
+
+  const formData = new FormData(form);
+
+  let fields = {};
+
+  // <https://stackoverflow.com/a/46774073/383609>
+  formData.forEach((value, key) => {
+    // Reflect.has in favor of: object.hasOwnProperty(key)
+    if (!Reflect.has(fields, key)) {
+      fields[key] = value;
+      return;
+    }
+
+    if (!Array.isArray(fields[key])) {
+      fields[key] = [fields[key]];
+    }
+
+    fields[key].push(value);
+  });
+
+  console.log(fields);
+}
+
+form.addEventListener("submit", handle_submit);
