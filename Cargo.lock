@@ -263,6 +263,7 @@ name = "taguchi-tables"
 version = "0.1.0"
 dependencies = [
  "oars",
+ "thiserror",
 ]
 
 [[package]]

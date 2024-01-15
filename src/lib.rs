@@ -1,15 +1,23 @@
 use oars::{
     constructors::BoseChecked,
-    oa::{OAConstructor, OAResult},
+    oa::{OAConstructor, OAResult, OA},
+    OarsError,
 };
 
-pub fn create(parameter_count: usize, variations_per_param: usize) -> OAResult<usize> {
+/// Errors.
+#[derive(thiserror::Error, Debug)]
+pub enum Error {
+    #[error("Failed to generate the underlying orthogonal array: {}", 0)]
+    GenError(#[from] OarsError),
+}
+
+pub fn create(parameter_count: usize, variations_per_param: usize) -> Result<OA<usize>, Error> {
     let config = BoseChecked {
         prime_base: parameter_count,
         dimensions: variations_per_param,
     };
 
-    config.verify()?.gen()
+    Ok(config.verify()?.gen()?)
 }
 
 #[cfg(test)]
