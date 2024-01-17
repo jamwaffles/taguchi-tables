@@ -5,9 +5,9 @@ const runWasm = async () => {
   // Instantiate our wasm module
   const helloWorld = await init(wasm_blob);
 
-  console.log("Here");
+  console.log("Here2");
 
-  helloWorld.greet();
+  helloWorld.taguchi({ something: 1 } as any);
 
   //   // Call the Add function export from wasm, save the result
   //   const addResult = helloWorld.add(24, 24);
@@ -18,9 +18,9 @@ const runWasm = async () => {
 
 runWasm();
 
-const form = document.getElementById("config");
+const form: HTMLFormElement = document.getElementById("config")! as HTMLFormElement;
 
-function handle_submit(e) {
+function handle_submit(e: SubmitEvent) {
   e.preventDefault();
 
   const formData = new FormData(form);

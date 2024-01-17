@@ -1,8 +1,9 @@
 mod utils;
 
+use log::Level;
 use oars::{
     constructors::BoseChecked,
-    oa::{OAConstructor, OAResult, OA},
+    oa::{OAConstructor, OA},
     OarsError,
 };
 use wasm_bindgen::prelude::*;
@@ -23,14 +24,27 @@ pub fn create(parameter_count: usize, variations_per_param: usize) -> Result<OA<
     Ok(config.verify()?.gen()?)
 }
 
-#[wasm_bindgen]
-extern "C" {
-    fn alert(s: &str);
+#[derive(Debug, Default, Copy, Clone, serde::Deserialize)]
+pub struct Config {
+    something: u8,
+}
+
+#[derive(Debug, Default, Copy, Clone, serde::Serialize)]
+pub struct Taguchi {
+    foo: u32,
 }
 
 #[wasm_bindgen]
-pub fn greet() {
-    // alert("Hello, world!");
+pub fn taguchi(config: JsValue) -> JsValue {
+    console_log::init_with_level(Level::Debug).ok();
+
+    let config: Config = serde_wasm_bindgen::from_value(config).expect("Bad config");
+
+    log::debug!("Here agai");
+
+    dbg!(config);
+
+    serde_wasm_bindgen::to_value(&Taguchi::default()).expect("Bad output")
 }
 
 #[cfg(test)]
